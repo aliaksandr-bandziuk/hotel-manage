@@ -1,7 +1,11 @@
 'use client';
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { AiFillGithub } from 'react-icons/ai'
 import { FcGoogle } from 'react-icons/fc'
+import { signUp } from 'next-auth-sanity/client'
+import { signIn, useSession } from 'next-auth/react';
+import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 
 const defaultFormData = {
   name: '',
@@ -20,14 +24,43 @@ const Auth = () => {
     setFormData({ ...formData, [name]: value });
   };
 
+  const { data: session } = useSession();
+  const router = useRouter();
+
+  // console.log('Session:', session);
+
+  useEffect(() => {
+    if (session) {
+      router.push('/');
+    }
+  }, [router, session]);
+
+  const loginHandler = async () => {
+    try {
+      await signIn();
+      // push the user to the homepage
+      router.push('/');
+    } catch (error) {
+      console.log('Error:', error);
+      toast.error('Something went wrong. Please try again.');
+    }
+  };
+
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     
     event.preventDefault();
 
     try {
-      console.log('Form data:', formData);
+      // console.log('Form data:', formData);
+      const user = await signUp(formData);
+
+      if (user) {
+        toast.success('Success. Please sign in.');
+      }
+
     } catch (error) {
       console.error('Error:', error);
+      toast.error('Error. Please try again.');
     } finally {
       setFormData(defaultFormData);
     }
@@ -41,8 +74,12 @@ const Auth = () => {
           <h1 className="text-xl font-bold leading-tight tracking-tight md:text-2xl">Create an account</h1>
           <p>OR</p>
           <span className="inline-flex">
-            <AiFillGithub className="mr-3 text-4xl cursor-pointer text-black dark:text-white" />
-            <FcGoogle className="ml-3 text-4xl cursor-pointer" />
+            <AiFillGithub
+              onClick={loginHandler}
+              className="mr-3 text-4xl cursor-pointer text-black dark:text-white" />
+            <FcGoogle
+              onClick={loginHandler}
+              className="ml-3 text-4xl cursor-pointer" />
           </span>
         </div>
 
@@ -87,8 +124,11 @@ const Auth = () => {
         </form>
 
         <button
+          onClick={loginHandler}
           className="text-blue-700 underline"
-        >Login</button>
+        >
+          Login
+        </button>
       </div>
     </section>
   )
