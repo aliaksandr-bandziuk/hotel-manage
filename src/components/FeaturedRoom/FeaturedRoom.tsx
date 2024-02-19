@@ -41,7 +41,7 @@ const FeaturedRoom: FC<Props> = (props) => {
 
       <div className="md:py-10 md:w-1/2 text-left">
         <h3 className="font-heading mb-12">Featured Room</h3>
-        <p font-normal max-w-md>{featuredRoom.description}</p>
+        <p className="font-normal max-w-md">{featuredRoom.description}</p>
         <div className="flex flex-col md:flex-row md:items-end justify-between mt-5">
           <div className="flex mb-3 md:mb-0">
             <div className="flex gap3 flex-col items-center justify-center mr-4">

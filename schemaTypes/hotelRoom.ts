@@ -87,8 +87,8 @@ const hotelRoom = {
       initialValue: 'Check-in time: 12:00 PM, Check-out time: 11:00 AM',
     }),
     defineField({
-      name: 'dimention',
-      title: 'Dimention',
+      name: 'dimension',
+      title: 'Dimension',
       type: 'string',
     }),
     defineField({
