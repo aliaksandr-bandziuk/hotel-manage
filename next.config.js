@@ -20,6 +20,24 @@ const nextConfig = {
         pathname: '**',
         port: '',
       },
+      {
+        protocol: 'https',
+        hostname: 'unsplash.com',
+        pathname: '**',
+        port: '',
+      },
+      {
+        protocol: 'https',
+        hostname: 'plus.unsplash.com',
+        pathname: '**',
+        port: '',
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+        pathname: '**',
+        port: '',
+      },
     ],
   },
 }
