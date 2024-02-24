@@ -10,10 +10,12 @@
   },
   "dependencies": {
     "@sanity/vision": "^3.29.1",
+    "@stripe/stripe-js": "^3.0.5",
     "@types/node": "20.11.17",
     "@types/react": "18.2.55",
     "@types/react-dom": "18.2.19",
     "autoprefixer": "10.4.17",
+    "axios": "^1.6.7",
     "eslint": "8.56.0",
     "eslint-config-next": "14.1.0",
     "next": "14.1.0",
@@ -27,6 +29,7 @@
     "react-hot-toast": "^2.4.1",
     "react-icons": "^5.0.1",
     "sanity": "^3.29.1",
+    "stripe": "^14.17.0",
     "swr": "^2.2.5",
     "tailwindcss": "3.4.1",
     "typescript": "5.3.3"

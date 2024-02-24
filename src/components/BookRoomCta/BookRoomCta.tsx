@@ -147,7 +147,9 @@ const BookRoomCta: FC<Props> = (props) => {
       )}
 
       <button
-        disabled={isBooked || !checkinDate || !checkoutDate || calcNoOfDays() <= 0}
+        disabled={isBooked}
+        // другой вариант
+        // disabled={isBooked || !checkinDate || !checkoutDate || calcNoOfDays() <= 0}
         onClick={handleBookNowClick}
         className="btn-primary w-full mt-6 disabled:bg-gray-500 disabled:cursor-not-allowed"
       >

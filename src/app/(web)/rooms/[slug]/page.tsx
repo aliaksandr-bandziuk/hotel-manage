@@ -10,6 +10,9 @@ import { AiOutlineMedicineBox } from "react-icons/ai";
 import { GiSmokeBomb } from "react-icons/gi";
 import BookRoomCta from "@/components/BookRoomCta/BookRoomCta";
 import { useState } from "react";
+import toast from "react-hot-toast";
+import axios from "axios";
+import { getStripe } from "@/libs/stripe";
 
 const RoomDetails = (props: { params: { slug: string } }) => {
 
@@ -38,8 +41,52 @@ const RoomDetails = (props: { params: { slug: string } }) => {
     return null;
   };
 
-  const handleBookNowClick = () => {
-    console.log("Book Now Clicked");
+  const handleBookNowClick = async () => {
+
+    if (!checkinDate || !checkoutDate) {
+      return toast.error("Please provide check-in / check-out dates");
+    }
+    if (checkinDate > checkoutDate) {
+      return toast.error("Check-out date must be greater than check-in date");
+    }
+    const numberOfDays = calcNoOfDays();
+    const hotelRoomSlug = room.slug.current;
+
+    // Integrate Stripe payment here
+    const stripe = await getStripe();
+
+    try {
+      const { data: stripeSession } = await axios.post('/api/stripe', {
+        checkinDate,
+        checkoutDate,
+        adults,
+        children,
+        numberOfDays,
+        hotelRoomSlug
+      });
+
+      if (stripe) {
+        const result = await stripe.redirectToCheckout({
+          sessionId: stripeSession.id,
+        });
+
+        if (result.error) {
+          toast.error("Payment failed");
+        }
+      }
+
+    } catch (error) {
+      console.log("Error:", error);
+      toast.error("An error occurred while processing your payment. Please try again later.");
+    }
+
+  };
+
+  const calcNoOfDays = () => {
+    if (!checkinDate || !checkoutDate) return 0;
+    const timeDiff = checkoutDate.getTime() - checkinDate.getTime();
+    const noOfDays = Math.ceil(timeDiff / (24 * 60 * 60 * 1000));
+    return noOfDays;
   };
 
   // console.log(room);
