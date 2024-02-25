@@ -24,7 +24,7 @@ const RoomDetails = (props: { params: { slug: string } }) => {
   const [checkinDate, setCheckinDate] = useState<Date | null>(null);
   const [checkoutDate, setCheckoutDate] = useState<Date | null>(null);
   const [adults, setAdults] = useState(1);
-  const [children, setChildren] = useState(0);
+  const [noOfChildren, setNoOfChildren] = useState(0);
 
   const fetchRoom = async () => getRoom(slug);
 
@@ -63,7 +63,7 @@ const RoomDetails = (props: { params: { slug: string } }) => {
         checkinDate,
         checkoutDate,
         adults,
-        children,
+        children: noOfChildren,
         numberOfDays,
         hotelRoomSlug,
       });
@@ -182,9 +182,9 @@ const RoomDetails = (props: { params: { slug: string } }) => {
               setCheckoutDate={setCheckoutDate}
               calcMinCheckoutDate={calcMinCheckoutDate}
               adults={adults}
-              children={children}
+              noOfChildren={noOfChildren}
               setAdults={setAdults}
-              setChildren={setChildren}
+              setNoOfChildren={setNoOfChildren}
               isBooked={room.isBooked}
               handleBookNowClick={handleBookNowClick}
             />
