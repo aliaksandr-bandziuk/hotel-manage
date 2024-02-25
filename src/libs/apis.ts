@@ -1,16 +1,17 @@
-import { CreateBookingDto, Room } from "@/models/room";
-import sanityClient from "./sanity";
-import * as queries from "./sanityQueries"
-import axios from "axios";
-import { Booking } from "@/models/booking";
-import { CreateReviewDto, UpdateReviewDto, Review } from "@/models/review";
+import { CreateReviewDto, Review } from './../models/review';
+import axios from 'axios';
+
+import { CreateBookingDto, Room } from '@/models/room';
+import sanityClient from './sanity';
+import * as queries from './sanityQueries';
+import { Booking } from '@/models/booking';
+import { UpdateReviewDto } from '@/models/review';
 
 export async function getFeaturedRoom() {
   const result = await sanityClient.fetch<Room>(
     queries.getFeaturedRoomQuery,
     {},
     { cache: 'no-cache' }
-    // { next: { revalidate: 1800 }}
   );
 
   return result;
@@ -21,7 +22,6 @@ export async function getRooms() {
     queries.getRoomsQuery,
     {},
     { cache: 'no-cache' }
-    // { next: { revalidate: 1800 }}
   );
   return result;
 }
@@ -31,7 +31,6 @@ export async function getRoom(slug: string) {
     queries.getRoom,
     { slug },
     { cache: 'no-cache' }
-    // { next: { revalidate: 1800 }}
   );
 
   return result;
@@ -100,21 +99,24 @@ export const updateHotelRoom = async (hotelRoomId: string) => {
 };
 
 export async function getUserBookings(userId: string) {
-  const result = await sanityClient.fetch<Booking[]>(queries.getUserBookingsQuery, {
-    userId
-  },
-    // { next: { revalidate: 1800 }}
+  const result = await sanityClient.fetch<Booking[]>(
+    queries.getUserBookingsQuery,
+    {
+      userId,
+    },
     { cache: 'no-cache' }
   );
+
   return result;
 }
 
 export async function getUserData(userId: string) {
-  const result = await sanityClient.fetch(queries.getUserDataQuery,
+  const result = await sanityClient.fetch(
+    queries.getUserDataQuery,
     { userId },
-    // { next: { revalidate: 1800 }}
     { cache: 'no-cache' }
   );
+
   return result;
 }
 
